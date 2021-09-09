@@ -9,11 +9,11 @@ export class StateService {
   constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) { }
 
   getStates(year: number) {
-    return this.http.get<state[]>(this.baseUrl + "api/state", { params: { year: year } });
+    return this.http.get<State[]>(this.baseUrl + "api/state", { params: { year: year } });
   }
 }
 
-export interface state {
+export interface State {
   name: string;
   wkt: string;
   year: number;

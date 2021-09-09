@@ -1,5 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { state, StateService } from '../state.service';
+import { State, StateService } from '../state.service';
 import { MapService } from '../map.service';
 
 @Component({
@@ -17,6 +17,4 @@ export class OlMapComponent implements AfterViewInit {
       this.mapService.loadStatesOnMap(stateList);
     });
   }
-
-  
 }

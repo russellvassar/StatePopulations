@@ -1,0 +1,13 @@
+.state-label {
+    width: 110px;
+    display: inline-block;
+    font-weight: bold;
+}
+
+.footer {
+    padding: 10px;
+}
+
+.card {
+    background-color: rgba(0,0,0,0.5);
+}

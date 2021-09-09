@@ -3,3 +3,14 @@
     flex-direction: column;
     flex-grow: 1;
 }
+
+.map-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.state-info {
+    position: absolute;
+    right: 0;
+}

@@ -1,22 +1,24 @@
 import { Injectable } from '@angular/core';
 import TileLayer from 'ol/layer/Tile';
-import { Feature, Map, MapBrowserEvent, MapEvent, View } from 'ol';
+import { Feature, Map, MapBrowserEvent, View } from 'ol';
 import { WKT } from 'ol/format';
-import { state } from './state.service';
+import { State } from './state.service';
 import Geometry from 'ol/geom/Geometry';
 import VectorSource from 'ol/source/Vector';
 import { Vector } from 'ol/layer';
 import { XYZ } from 'ol/source';
-import BaseEvent from 'ol/events/Event';
 import Style from 'ol/style/Style';
 import Stroke from 'ol/style/Stroke';
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class MapService {
   private map?: Map;
   private wktFormat = new WKT();
+  public hoverState?: StateInfo | null;
+
   //private hoverState: state = null;
   private stateVector = new Vector({
     source: new VectorSource()
@@ -24,7 +26,7 @@ export class MapService {
 
   constructor() { }
 
-  public loadStatesOnMap(states: state[]) {
+  public loadStatesOnMap(states: State[]) {
     const stateFeatures: Feature<any>[] = [];
     let mainMaxX = 0;
     for (let state of states) { //Loop through the states and add features to the map.
@@ -56,7 +58,14 @@ export class MapService {
       const hoverFeatures = this.getHoverFeatures(event.coordinate); //Get the features that the mouse is over.
       this.clearFeatureStyles(); //Clear current styles.
       if (hoverFeatures && hoverFeatures.length) { //if there are any features under the mouse.
+        this.hoverState = {
+          gdp: hoverFeatures[0].get("gdp"),
+          name: hoverFeatures[0].get("name"),
+          population: hoverFeatures[0].get("population")
+        };
         this.setHoverStyle(hoverFeatures[0]); //Set the feature under the mouse to the hover style.
+      } else { //The mouse isn't over any states.
+        this.hoverState = null;
       }
     });
   }
@@ -98,4 +107,10 @@ export class MapService {
       })
     }));
   }
+}
+
+export interface StateInfo {
+  name: string;
+  gdp: number;
+  population: number;
 }
