@@ -18,7 +18,6 @@ namespace StatePopulations
         public virtual DbSet<StateDatum> StateData { get; set; }
         public virtual DbSet<StudyList> StudyLists { get; set; }
         public virtual DbSet<StudyShape> StudyShapes { get; set; }
-        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -75,96 +74,6 @@ namespace StatePopulations
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_stateData_State");
             });
-
-            modelBuilder.Entity<StudyList>(entity =>
-            {
-                entity.HasKey(e => e.ListId)
-                    .HasName("PK_study_list");
-
-                entity.ToTable("StudyList");
-
-                entity.Property(e => e.ListId).HasColumnName("list_id");
-
-                entity.Property(e => e.State)
-                    .IsRequired()
-                    .HasMaxLength(2)
-                    .IsUnicode(false)
-                    .HasColumnName("state")
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("username");
-
-                entity.HasOne(d => d.StateNavigation)
-                    .WithMany(p => p.StudyLists)
-                    .HasForeignKey(d => d.State)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_study_list_state");
-
-                entity.HasOne(d => d.UsernameNavigation)
-                    .WithMany(p => p.StudyLists)
-                    .HasForeignKey(d => d.Username)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_study_list_user");
-            });
-
-            modelBuilder.Entity<StudyShape>(entity =>
-            {
-                entity.HasKey(e => e.ShapeId)
-                    .HasName("PK_study_shape");
-
-                entity.ToTable("StudyShape");
-
-                entity.Property(e => e.ShapeId).HasColumnName("shape_id");
-
-                entity.Property(e => e.Geojson)
-                    .IsRequired()
-                    .IsUnicode(false)
-                    .HasColumnName("geojson");
-
-                entity.Property(e => e.Username)
-                    .IsRequired()
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("username");
-
-                entity.HasOne(d => d.UsernameNavigation)
-                    .WithMany(p => p.StudyShapes)
-                    .HasForeignKey(d => d.Username)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_study_shape_user");
-            });
-
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasKey(e => e.Username)
-                    .HasName("PK_user");
-
-                entity.ToTable("User");
-
-                entity.Property(e => e.Username)
-                    .HasMaxLength(255)
-                    .IsUnicode(false)
-                    .HasColumnName("username");
-
-                entity.Property(e => e.PassHash)
-                    .IsRequired()
-                    .HasMaxLength(24)
-                    .IsUnicode(false)
-                    .HasColumnName("pass_hash")
-                    .IsFixedLength(true);
-
-                entity.Property(e => e.PassSalt)
-                    .IsRequired()
-                    .HasMaxLength(24)
-                    .IsUnicode(false)
-                    .HasColumnName("pass_salt")
-                    .IsFixedLength(true);
-            });
-
             OnModelCreatingPartial(modelBuilder);
         }
 
