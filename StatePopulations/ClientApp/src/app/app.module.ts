@@ -6,13 +6,14 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { OlMapComponent } from './ol-map/ol-map.component';
 import { StateInfoComponent } from './state-info/state-info.component';
-
 
 @NgModule({
   declarations: [
@@ -28,6 +29,8 @@ import { StateInfoComponent } from './state-info/state-info.component';
     HttpClientModule,
     MatCardModule, 
     FormsModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' }
     ]),

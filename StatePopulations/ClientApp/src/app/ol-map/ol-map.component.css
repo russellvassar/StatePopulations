@@ -7,3 +7,11 @@
 #map {
   flex-grow: 1;
 }
+
+.loading-message {
+    display: flex;
+}
+
+.spinner {
+    margin-right: 3px;
+}
