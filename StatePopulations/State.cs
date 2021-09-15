@@ -11,7 +11,6 @@ namespace StatePopulations
         public State()
         {
             StateData = new HashSet<StateDatum>();
-            StudyLists = new HashSet<StudyList>();
         }
 
         public string Abbr { get; set; }
@@ -20,6 +19,5 @@ namespace StatePopulations
         public string LongName { get; set; }
 
         public virtual ICollection<StateDatum> StateData { get; set; }
-        public virtual ICollection<StudyList> StudyLists { get; set; }
     }
 }

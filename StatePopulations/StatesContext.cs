@@ -16,8 +16,6 @@ namespace StatePopulations
 
         public virtual DbSet<State> States { get; set; }
         public virtual DbSet<StateDatum> StateData { get; set; }
-        public virtual DbSet<StudyList> StudyLists { get; set; }
-        public virtual DbSet<StudyShape> StudyShapes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
