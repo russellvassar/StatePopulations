@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -9,6 +8,10 @@ namespace StatePopulations
 {
     public partial class StatesContext : DbContext
     {
+        public StatesContext()
+        {
+        }
+
         public StatesContext(DbContextOptions<StatesContext> options)
             : base(options)
         {
@@ -72,6 +75,7 @@ namespace StatePopulations
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_stateData_State");
             });
+
             OnModelCreatingPartial(modelBuilder);
         }
 
