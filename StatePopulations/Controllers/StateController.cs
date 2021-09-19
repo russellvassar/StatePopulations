@@ -5,7 +5,6 @@ using System.Linq;
 
 namespace StatePopulations.Controllers;
 [ApiController]
-[Route("api/[controller]")]
 public class StateController : ControllerBase
 {
     private readonly StatesContext _context;
@@ -16,7 +15,8 @@ public class StateController : ControllerBase
     }
 
     [HttpGet]
-    public List<StatePopulationGdp> Get(short year)
+    [Route("api/state")]
+    public List<StatePopulationGdp> GetStates(short year)
     {
         var states =
             from State in _context.States
@@ -31,5 +31,18 @@ public class StateController : ControllerBase
                 Year = StateDatum.Year
             };
         return states.ToList();
+    }
+
+    [HttpGet]
+    [Route("api/years")]
+    public List<short> GetYears()
+    {
+        var years =
+            from Data in _context.StateData
+            group Data by Data.Year into Years
+            orderby Years.Key descending
+            select Years.Key;
+
+        return years.ToList();
     }
 }

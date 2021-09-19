@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StateInfoComponent } from './state-info.component';
+import { SnackBarContentComponent } from './snack-bar-content.component';
 
-describe('StateInfoComponent', () => {
-    let component: StateInfoComponent;
-    let fixture: ComponentFixture<StateInfoComponent>;
+describe('SnackBarContentComponent', () => {
+    let component: SnackBarContentComponent;
+    let fixture: ComponentFixture<SnackBarContentComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [StateInfoComponent]
+            declarations: [SnackBarContentComponent]
         })
             .compileComponents();
     });
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(StateInfoComponent);
+        fixture = TestBed.createComponent(SnackBarContentComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

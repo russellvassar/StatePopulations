@@ -1,31 +1,24 @@
-import { AfterViewInit, Component, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { StateService } from '../state.service';
 import { MapService } from '../map.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackBarService } from '../snackbar.service';
 
 @Component({
-  selector: 'ol-map',
-  templateUrl: './ol-map.component.html',
-  styleUrls: ['./ol-map.component.css']
+    selector: 'ol-map',
+    templateUrl: './ol-map.component.html',
+    styleUrls: ['./ol-map.component.css']
 })
 export class OlMapComponent implements AfterViewInit {
-  @ViewChild('loadingTemplate') loadingTemplate!: TemplateRef<any>;
+    constructor(private stateService: StateService, private mapService: MapService, private snackBarService: SnackBarService) { }
 
-  constructor(private stateService: StateService, private mapService: MapService, private _snackBar: MatSnackBar) { }
-  
-  ngAfterViewInit() {
-    this.mapService.initializeMap("map");
-    this.showLoadingMessage();
-    this.stateService.getStates(2019).subscribe(stateList => {
-      this.mapService.loadStatesOnMap(stateList);
-    }).add(() => this.hideLoadingMessage());
-  }
+    ngAfterViewInit() {
+        this.mapService.initializeMap("map");
 
-  private showLoadingMessage() {
-    this._snackBar.openFromTemplate(this.loadingTemplate);
-  }
-
-  private hideLoadingMessage() {
-    this._snackBar.dismiss();
-  }
+        this.stateService.yearUpdated.subscribe(year => {
+            this.snackBarService.showLoadingSnackbar();
+            this.stateService.getStates(year).subscribe(stateList => {
+                this.mapService.loadStatesOnMap(stateList);
+            }).add(() => this.snackBarService.hideLoadingSnackbar());
+        });
+    }
 }

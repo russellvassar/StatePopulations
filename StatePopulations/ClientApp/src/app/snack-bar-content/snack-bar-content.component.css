@@ -1,0 +1,7 @@
+.loading-message {
+  display: flex;
+}
+
+.spinner {
+  margin-right: 3px;
+}
