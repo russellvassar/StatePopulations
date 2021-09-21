@@ -53,5 +53,5 @@ jobs:
       with:
         app-name: 'statepopulations'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_bf82390368164a1a999d0917f1f0ae79 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_8633c41e5a864363aed8ce3c070190e6 }}
         package: .
