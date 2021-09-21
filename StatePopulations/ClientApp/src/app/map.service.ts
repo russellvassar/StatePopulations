@@ -15,14 +15,17 @@ import Stroke from 'ol/style/Stroke';
 })
 
 export class MapService {
+    private source = new VectorSource();
+    private stateVector = new Vector({
+        source: this.source
+    });
     private map?: Map;
     private wktFormat = new WKT();
-    public hoverState?: StateInfo | null;
 
-    //private hoverState: state = null;
-    private stateVector = new Vector({
-        source: new VectorSource()
-    });
+    public hoverState?: StateInfo | null;
+    public selectedStates: StateInfo[] = [];
+
+    
 
     constructor() { }
 
@@ -40,8 +43,8 @@ export class MapService {
                 mainMaxX = (<Geometry>feature.getGeometry()).getExtent()[2]; //Save the maxx for Maine.
             }
         }
-        this.stateVector.getSource().addFeatures(stateFeatures);
-        const extent = this.stateVector.getSource().getExtent();
+        this.source.addFeatures(stateFeatures);
+        const extent = this.source.getExtent();
         //Fix the map, so it doesn't wrap around the world.
         //The edge of Alaska wraps from negative to positive longitude, so we'll basically get the whole world if we don't fix it.
         //Set the right edge the egde of Maine instead.
@@ -56,14 +59,16 @@ export class MapService {
         this.map?.on('pointermove', (event: MapBrowserEvent<MouseEvent>) => {
             this.getHoverFeatures(event.coordinate); //Get the features
             const hoverFeatures = this.getHoverFeatures(event.coordinate); //Get the features that the mouse is over.
-            this.clearFeatureStyles(); //Clear current styles.
+            this.clearNonSelectedStyles(); //Clear current styles.
             if (hoverFeatures && hoverFeatures.length) { //if there are any features under the mouse.
                 this.hoverState = {
                     gdp: hoverFeatures[0].get("gdp"),
                     name: hoverFeatures[0].get("name"),
                     population: hoverFeatures[0].get("population")
                 };
-                this.setHoverStyle(hoverFeatures[0]); //Set the feature under the mouse to the hover style.
+                if (this.stateSelectedIndex(hoverFeatures[0].get("name")) < 0) {
+                    this.setHoverStyle(hoverFeatures[0]); //Set the feature under the mouse to the hover style.
+                }
             } else { //The mouse isn't over any states.
                 this.hoverState = null;
             }
@@ -87,15 +92,36 @@ export class MapService {
                 center: [0, 0]
             })
         });
+
+        //Add the click interaction to select a state.
+        this.map.on('singleclick', e => {
+            const features = this.source.getFeaturesAtCoordinate(e.coordinate);
+            for (const f of features) {
+                const stateIndex = this.stateSelectedIndex(f.get("name"));
+                if (stateIndex >= 0) {
+                    this.selectedStates.splice(stateIndex, 1);
+                    f.setStyle(undefined);
+                } else {
+                    this.selectedStates.push({
+                        gdp: f.get("gdp"),
+                        name: f.get("name"),
+                        population: f.get("population")
+                    });
+                    this.setSelectedStyle(f);
+                }
+            }
+        });
     }
 
     private getHoverFeatures(coordinate: number[]) {
-        return this.stateVector.getSource().getFeaturesAtCoordinate(coordinate);
+        return this.source.getFeaturesAtCoordinate(coordinate);
     }
 
-    private clearFeatureStyles() {
-        for (const f of this.stateVector.getSource().getFeatures()) {
-            f.setStyle(undefined);
+    private clearNonSelectedStyles() {
+        for (const f of this.source.getFeatures()) {
+            if (this.stateSelectedIndex(f.get('name')) < 0) {
+                f.setStyle(undefined);
+            }
         }
     }
 
@@ -104,6 +130,24 @@ export class MapService {
             stroke: new Stroke({
                 width: 5,
                 color: 'red'
+            })
+        }));
+    }
+
+    private stateSelectedIndex(stateName: string): number {
+        for (let i = 0; i < this.selectedStates.length; i++) {
+            if (this.selectedStates[i].name === stateName) {
+                return i;
+            }
+        }
+        return -1; //Didn't find it.
+    }
+
+    private setSelectedStyle(feature: Feature<Geometry>) {
+        feature.setStyle(new Style({
+            stroke: new Stroke({
+                width: 5,
+                color: 'blue'
             })
         }));
     }

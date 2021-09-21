@@ -1,21 +1,22 @@
-<mat-card class="card" *ngIf="mapService.hoverState">
-    <mat-card-title>{{mapService?.hoverState?.name}}</mat-card-title>
+<mat-card class="card">
+    <mat-card-title *ngIf="states.length === 1">{{states[0].name}}</mat-card-title>
+    <mat-card-title *ngIf="states.length > 1">{{states.length}} Selected States</mat-card-title>
     <mat-card-content>
-    <div class="state-row">
-        <span class="state-label">GDP:</span>
-        <span>{{mapService?.hoverState?.gdp | number: '1.1-1'}}</span>
-    </div>
-    <div class="state-row">
-        <span class="state-label">Population:</span>
-        <span>{{mapService?.hoverState?.population | number: '1.0-0'}}</span>
-    </div>
-    <div class="state-row">
-        <span class="state-label">GDP Per Capita:</span>
-        <span>{{(mapService.hoverState.gdp * 1000000000) / mapService.hoverState.population | number: '1.0-0'}}</span>
-    </div>
+        <div class="state-row">
+            <span class="state-label">GDP:</span>
+            <span>{{getTotalGdp() | number: '1.1-1'}}</span>
+        </div>
+        <div class="state-row">
+            <span class="state-label">Population:</span>
+            <span>{{getTotalPopulation() | number: '1.0-0'}}</span>
+        </div>
+        <div class="state-row">
+            <span class="state-label">GDP Per Capita:</span>
+            <span>{{(getTotalGdp() * 1000000000) / getTotalPopulation() | number: '1.0-0'}}</span>
+        </div>
     </mat-card-content>
     <mat-card-footer class="footer">
-    <div>*GDP is in billions of chained 2012 dollars.</div>
-    <div>*GDP per capita is in chained 2012 dollars.</div>
+        <div>*GDP is in billions of chained 2012 dollars.</div>
+        <div>*GDP per capita is in chained 2012 dollars.</div>
     </mat-card-footer>
 </mat-card>

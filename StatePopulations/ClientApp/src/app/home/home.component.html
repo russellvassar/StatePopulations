@@ -1,6 +1,6 @@
 <app-nav-menu></app-nav-menu>
 <div class="map-wrapper">
     <ol-map></ol-map>
-    <state-info class="state-info"></state-info>
+    <state-info *ngIf="mapService.selectedStates.length" class="state-info" [states]="mapService.selectedStates"></state-info>
+    <state-info *ngIf="!mapService.selectedStates.length && mapService.hoverState" class="state-info" [states]="[mapService.hoverState]"></state-info>
 </div>
-

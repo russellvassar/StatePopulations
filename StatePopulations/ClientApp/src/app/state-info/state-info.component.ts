@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MapService } from '../map.service';
+import { StateInfo } from '../map.service';
 
 @Component({
     selector: 'state-info',
@@ -7,7 +7,25 @@ import { MapService } from '../map.service';
     styleUrls: ['./state-info.component.css']
 })
 export class StateInfoComponent implements OnInit {
-    constructor(public mapService: MapService) { }
+    @Input() states: StateInfo[] = [];
+
+    constructor() { }
+
+    getTotalGdp(): number {
+        let sum = 0;
+        for (const s of this.states) {
+            sum += s.gdp;
+        }
+        return sum;
+    }
+
+    getTotalPopulation(): number {
+        let sum = 0;
+        for (const s of this.states) {
+            sum += s.population;
+        }
+        return sum;
+    }
 
     ngOnInit(): void { }
 }
