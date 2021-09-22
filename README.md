@@ -5,4 +5,5 @@ The backend is uses .NET 6.0 and MS SQL Server. The front end uses Angular 12.
 
 I've just started on this. It's still in progress.
 
+Azure app services doesn't currently support .NET 6 RC1, so this site is currently down.
 See it in action at https://statepopulations.azurewebsites.net/.
