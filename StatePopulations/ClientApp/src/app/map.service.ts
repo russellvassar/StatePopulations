@@ -23,9 +23,7 @@ export class MapService {
     private wktFormat = new WKT();
 
     public hoverState?: StateInfo | null;
-    public selectedStates: StateInfo[] = [];
-
-    
+    public selectedStates: StateInfo[] = [];    
 
     constructor() { }
 
@@ -50,6 +48,11 @@ export class MapService {
         //Set the right edge the egde of Maine instead.
         extent[2] = mainMaxX;
         this.map?.getView().fit(extent);
+    }
+
+    public clearStates() {
+        this.selectedStates = [];
+        this.source.clear();
     }
 
     public initializeMap(mapId: string) {

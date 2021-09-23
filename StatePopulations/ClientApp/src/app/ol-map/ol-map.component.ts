@@ -16,6 +16,7 @@ export class OlMapComponent implements AfterViewInit {
 
         this.stateService.yearUpdated.subscribe(year => {
             this.snackBarService.showLoadingSnackbar();
+            this.mapService.clearStates();
             this.stateService.getStates(year).subscribe(stateList => {
                 this.mapService.loadStatesOnMap(stateList);
             }).add(() => this.snackBarService.hideLoadingSnackbar());
