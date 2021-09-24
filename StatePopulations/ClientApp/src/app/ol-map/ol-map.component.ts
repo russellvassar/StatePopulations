@@ -1,7 +1,7 @@
 import { AfterViewInit, Component } from '@angular/core';
-import { StateService } from '../state.service';
-import { MapService } from '../map.service';
-import { SnackBarService } from '../snackbar.service';
+import { StateService } from '../services/state.service';
+import { MapService } from '../services/map.service';
+import { SnackBarService } from '../services/snackbar.service';
 
 @Component({
     selector: 'ol-map',

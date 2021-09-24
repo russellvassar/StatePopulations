@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SnackBarService } from '../snackbar.service';
-import { StateService } from '../state.service';
+import { SnackBarService } from '../services/snackbar.service';
+import { StateService } from '../services/state.service';
 
 @Component({
     selector: 'years',

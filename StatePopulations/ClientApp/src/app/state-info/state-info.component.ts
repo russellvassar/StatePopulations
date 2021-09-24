@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StateInfo } from '../map.service';
+import { StateInfo } from '../services/map.service';
 
 @Component({
     selector: 'state-info',
