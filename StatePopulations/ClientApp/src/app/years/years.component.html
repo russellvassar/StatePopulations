@@ -1,6 +1,6 @@
 <button mat-raised-button color="accent" [matMenuTriggerFor]="menu">{{stateService.selectedYear}}</button>
 <mat-menu #menu="matMenu">
-    <button *ngFor="let year of years" mat-menu-item (click)="setYear(year)">
+    <button class="year-btn" *ngFor="let year of years" mat-menu-item (click)="setYear(year)">
         {{year}}
     </button>
 </mat-menu>
