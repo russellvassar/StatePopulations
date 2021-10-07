@@ -15,7 +15,7 @@ import Stroke from 'ol/style/Stroke';
 })
 
 export class MapService {
-    private source = new VectorSource();
+    public source = new VectorSource();
     private stateVector = new Vector({
         source: this.source
     });
